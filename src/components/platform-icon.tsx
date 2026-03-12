@@ -3,6 +3,15 @@ interface PlatformIconProps {
   className?: string;
 }
 
+const PLATFORM_COLORS: Record<string, string> = {
+  twitter: "text-[#1d9bf0]",
+  wechat: "text-[#07c160]",
+};
+
+export function platformColor(platform: string): string {
+  return PLATFORM_COLORS[platform] ?? "text-gh-text-secondary";
+}
+
 export function PlatformIcon({ platform, className = "h-4 w-4" }: PlatformIconProps) {
   if (platform === "twitter") {
     return (

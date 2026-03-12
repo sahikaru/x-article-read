@@ -4,6 +4,7 @@ import { useState } from "react";
 import { trpc } from "@/lib/trpc/client";
 import { ArticleCard } from "@/components/article-card";
 import { FeedFilters } from "@/components/feed-filters";
+import { FetchUrlBar } from "@/components/fetch-url-bar";
 import { Button } from "@/components/ui/button";
 
 export default function FeedPage() {
@@ -58,6 +59,10 @@ export default function FeedPage() {
       </p>
 
       <div className="mt-4">
+        <FetchUrlBar />
+      </div>
+
+      <div className="mt-3">
         <FeedFilters
           interpretationFilter={interpretationFilter}
           onInterpretationFilterChange={setInterpretationFilter}

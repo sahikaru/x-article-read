@@ -1,4 +1,5 @@
 import type { TweetData, Engagement } from "../types";
+import type { WeChatArticle } from "../services/wechat";
 
 export function slugify(text: string): string {
   return text
@@ -72,6 +73,57 @@ tags: []
       mdx += `> ${p}\n>\n`;
     }
     mdx += "\n";
+  }
+
+  mdx += `---
+
+## 解读
+
+<Callout type="info">
+  待解读 — 需要 AI 解读或手动撰写解读内容。
+</Callout>
+`;
+
+  return mdx;
+}
+
+/**
+ * Build slug from WeChat article data.
+ */
+export function buildWeChatSlug(article: WeChatArticle): string {
+  const date = formatDate(article.publishDate);
+  return `${date}-${slugify(article.title.slice(0, 40))}`;
+}
+
+/**
+ * Build an MDX article from WeChat article data.
+ */
+export function buildWeChatMdx(article: WeChatArticle): string {
+  const date = formatDate(article.publishDate);
+  const slug = buildWeChatSlug(article);
+
+  let mdx = `---
+title: "${article.title.replace(/"/g, '\\"')}"
+author: "${article.author} (${article.accountName})"
+date: "${date}"
+source: "${article.sourceUrl}"
+slug: "${slug}"
+platform: "wechat"
+contentType: "article"
+tags: []
+---
+
+## Original
+
+> Source: [${article.sourceUrl}](${article.sourceUrl})
+> Author: **${article.author}** (${article.accountName})
+> Date: ${date}
+
+`;
+
+  const paragraphs = article.content.split("\n").filter((l) => l.trim());
+  for (const p of paragraphs) {
+    mdx += `${p}\n\n`;
   }
 
   mdx += `---

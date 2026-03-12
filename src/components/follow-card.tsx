@@ -4,7 +4,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CategoryBadge } from "@/components/category-badge";
 import { PlatformAvatar } from "./platform-avatar";
-import { PlatformIcon } from "./platform-icon";
+import { PlatformIcon, platformColor } from "./platform-icon";
 
 interface Category {
   id: number;
@@ -40,7 +40,7 @@ export function FollowCard({
           <div className="relative">
             <PlatformAvatar platform={platform} username={username} displayName={displayName} size={40} />
             <span className="absolute -bottom-0.5 -right-0.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-gh-bg-secondary">
-              <PlatformIcon platform={platform} className="h-3 w-3 text-[#1d9bf0]" />
+              <PlatformIcon platform={platform} className={`h-3 w-3 ${platformColor(platform)}`} />
             </span>
           </div>
           <div className="min-w-0">

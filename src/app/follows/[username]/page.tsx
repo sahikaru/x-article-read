@@ -5,7 +5,7 @@ import { appRouter } from "@/server/trpc/router";
 import { createCallerFactory, createTRPCContext } from "@/server/trpc/init";
 import { ArticleCardServer } from "@/components/article-card-server";
 import { PlatformAvatar } from "@/components/platform-avatar";
-import { PlatformIcon } from "@/components/platform-icon";
+import { PlatformIcon, platformColor } from "@/components/platform-icon";
 
 const createCaller = createCallerFactory(appRouter);
 
@@ -47,7 +47,7 @@ export default async function UserArticlesPage({
           <div className="relative">
             <PlatformAvatar platform={follow?.platform ?? "twitter"} username={username} displayName={displayName} size={56} />
             <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gh-bg-secondary">
-              <PlatformIcon platform={follow?.platform ?? "twitter"} className="h-3.5 w-3.5 text-[#1d9bf0]" />
+              <PlatformIcon platform={follow?.platform ?? "twitter"} className={`h-3.5 w-3.5 ${platformColor(follow?.platform ?? "twitter")}`} />
             </span>
           </div>
           <div>

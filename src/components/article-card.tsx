@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Heart, Repeat2, Eye } from "lucide-react";
 import { PlatformAvatar } from "./platform-avatar";
-import { PlatformIcon } from "./platform-icon";
+import { PlatformIcon, platformColor } from "./platform-icon";
 
 interface Engagement {
   likes: number;
@@ -66,7 +66,7 @@ export function ArticleCard({
             <div className="relative">
               <PlatformAvatar platform={platform} username={authorUsername} displayName={authorDisplayName} size={24} />
               <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-gh-bg-secondary">
-                <PlatformIcon platform={platform} className="h-2.5 w-2.5 text-[#1d9bf0]" />
+                <PlatformIcon platform={platform} className={`h-2.5 w-2.5 ${platformColor(platform)}`} />
               </span>
             </div>
             <span className="font-medium text-gh-text">{authorDisplayName}</span>

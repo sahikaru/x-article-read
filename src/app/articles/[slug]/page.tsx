@@ -6,7 +6,7 @@ import { createCallerFactory, createTRPCContext } from "@/server/trpc/init";
 import { MdxRenderer } from "@/components/mdx-renderer";
 import { InterpretationPanel } from "@/components/interpretation-panel";
 import { PlatformAvatar } from "@/components/platform-avatar";
-import { PlatformIcon } from "@/components/platform-icon";
+import { PlatformIcon, platformColor } from "@/components/platform-icon";
 
 const createCaller = createCallerFactory(appRouter);
 
@@ -56,7 +56,7 @@ export default async function ArticlePage({
           <div className="relative">
             <PlatformAvatar platform={article.platform} username={article.authorUsername} displayName={article.authorDisplayName} size={40} />
             <span className="absolute -bottom-0.5 -right-0.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-gh-bg-secondary">
-              <PlatformIcon platform={article.platform} className="h-3 w-3 text-[#1d9bf0]" />
+              <PlatformIcon platform={article.platform} className={`h-3 w-3 ${platformColor(article.platform)}`} />
             </span>
           </div>
           <div>

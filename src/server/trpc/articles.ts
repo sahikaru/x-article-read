@@ -1,6 +1,19 @@
 import { z } from "zod";
 import { router, publicProcedure } from "./init";
 import { createArticleService } from "@/lib/services/articles";
+import { fetchTweet, extractTweetId } from "@/lib/services/twitter";
+import {
+  fetchWeChatArticle,
+  isWeChatUrl,
+  extractWeChatId,
+} from "@/lib/services/wechat";
+import {
+  buildMdx,
+  buildSlug,
+  buildWeChatMdx,
+  buildWeChatSlug,
+  formatDate,
+} from "@/lib/mdx/builder";
 
 export const articlesRouter = router({
   list: publicProcedure
@@ -115,4 +128,69 @@ export const articlesRouter = router({
     const service = createArticleService(ctx.db);
     return service.getAllTags();
   }),
+
+  fetchUrl: publicProcedure
+    .input(z.object({ url: z.string().url() }))
+    .mutation(async ({ ctx, input }) => {
+      const service = createArticleService(ctx.db);
+
+      if (isWeChatUrl(input.url)) {
+        const wechatArticle = await fetchWeChatArticle(input.url);
+        const slug = buildWeChatSlug(wechatArticle);
+        const existing = await service.getArticleBySlug(slug);
+        if (existing) return { slug, duplicate: true };
+
+        const mdxContent = buildWeChatMdx(wechatArticle);
+        const article = await service.createArticle({
+          sourceId: extractWeChatId(input.url),
+          platform: "wechat",
+          contentType: "article",
+          slug,
+          title: wechatArticle.title,
+          authorUsername: wechatArticle.accountName,
+          authorDisplayName: wechatArticle.author || wechatArticle.accountName,
+          publishedAt: formatDate(wechatArticle.publishDate),
+          sourceUrl: input.url,
+          originalContent: wechatArticle.content,
+          mdxContent,
+          wordCount: wechatArticle.content.length,
+        });
+        return { slug: article.slug, duplicate: false };
+      }
+
+      const parsed = extractTweetId(input.url);
+      if (!parsed) {
+        throw new Error("Unsupported URL. Use Twitter/X or WeChat article URLs.");
+      }
+
+      const response = await fetchTweet(parsed.username, parsed.id);
+      if (!response.tweet) throw new Error("Tweet not found");
+
+      const tweet = response.tweet;
+      const slug = buildSlug(tweet);
+      const existing = await service.getArticleBySlug(slug);
+      if (existing) return { slug, duplicate: true };
+
+      const mdxContent = buildMdx(tweet, input.url);
+      const article = await service.createArticle({
+        sourceId: tweet.id,
+        platform: "twitter",
+        contentType: "tweet",
+        slug,
+        title: tweet.text.split("\n")[0].slice(0, 80),
+        authorUsername: tweet.author.screen_name,
+        authorDisplayName: tweet.author.name,
+        publishedAt: formatDate(tweet.created_at),
+        sourceUrl: input.url,
+        originalContent: tweet.text,
+        mdxContent,
+        wordCount: tweet.text.split(/\s+/).length,
+        engagement: {
+          likes: tweet.likes ?? 0,
+          retweets: tweet.retweets ?? 0,
+          views: tweet.views ?? 0,
+        },
+      });
+      return { slug: article.slug, duplicate: false };
+    }),
 });
