@@ -1,20 +1,59 @@
 {
   "name": "tweet-analyzer",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Fetch tweets from X/Twitter and generate structured MDX articles with AI-powered Chinese interpretations",
-  "type": "module",
+  "private": true,
   "scripts": {
-    "fetch": "tsx src/fetch-tweet.ts",
-    "batch": "tsx src/batch-fetch.ts",
-    "interpret": "tsx src/interpret.ts",
-    "pipeline": "tsx src/pipeline.ts"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "vitest",
+    "fetch": "tsx legacy/fetch-tweet.ts",
+    "batch": "tsx legacy/batch-fetch.ts",
+    "interpret": "tsx legacy/interpret.ts",
+    "pipeline": "tsx legacy/pipeline.ts",
+    "mcp": "tsx mcp-server/index.ts",
+    "migrate": "tsx scripts/migrate-mdx.ts",
+    "cli:fetch": "tsx cli/fetch.ts",
+    "cli:interpret": "tsx cli/interpret.ts"
   },
   "dependencies": {
-    "gray-matter": "^4.0.3"
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "@radix-ui/react-slot": "^1.1.1",
+    "@tanstack/react-query": "^5.60.0",
+    "@trpc/client": "^11.0.0",
+    "@trpc/react-query": "^11.0.0",
+    "@trpc/server": "^11.0.0",
+    "better-sqlite3": "^11.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "drizzle-orm": "^0.38.0",
+    "gray-matter": "^4.0.3",
+    "lucide-react": "^0.468.0",
+    "next": "^15.2.0",
+    "next-mdx-remote": "^5.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remark-gfm": "^4.0.1",
+    "tailwind-merge": "^2.6.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/better-sqlite3": "^7.6.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "drizzle-kit": "^0.30.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^15.2.0",
+    "postcss": "^8.5.0",
+    "tailwindcss": "^4.0.0",
     "tsx": "^4.19.0",
-    "typescript": "^5.5.0",
-    "@types/node": "^22.0.0"
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
   }
 }

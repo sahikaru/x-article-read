@@ -1,80 +1,106 @@
-# tweet-analyzer
+# Tweet Analyzer
 
-Fetch tweets from X/Twitter and generate structured MDX articles with AI-powered Chinese interpretations.
+Cross-platform RSS+AI app for fetching tweets from X/Twitter and generating structured MDX articles with AI-powered Chinese interpretations.
 
 ## Features
 
-- **Tweet Fetching**: Single or batch fetch via fxtwitter API (no auth required)
-- **MDX Generation**: Structured articles with frontmatter, original content, and interpretation sections
-- **Rate Limiting**: Configurable delay between requests for anti-scraping compliance
-- **Interpretation Pipeline**: Identifies articles needing AI interpretation, provides prompt templates
-- **Duplicate Detection**: Skips already-fetched articles automatically
+- **Follow Management** — Categorized user follow system with M2M relationships
+- **Article/Tweet Feed** — RSS-like browsing with filters (interpretation status, sort, tags)
+- **AI Interpretation** — Dual mode: MCP Server (free, via Claude Code) + Claude API (optional)
+- **Content Organization** — Browse by person, topic/tag, or search (FTS5)
+- **GitHub Dark Theme** — Accurate color palette, responsive layout
+- **MDX Rendering** — Rich content with Callout, Step, tables (GFM), and code blocks
+- **Side-by-side View** — Original content and AI interpretation displayed left-right on desktop
+- **MCP Server** — 4 tools for Claude Code integration (list, get, save, batch interpret)
+- **CLI Tools** — Legacy fetch and interpret commands preserved
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 15 (App Router) + PWA |
+| UI | Tailwind CSS + shadcn/ui, GitHub Dark theme |
+| Database | SQLite + Drizzle ORM (local-first) |
+| API | tRPC v11, end-to-end type-safe |
+| State | TanStack Query v5 via tRPC |
+| Search | SQLite FTS5 full-text search |
+| AI | @anthropic-ai/sdk (Claude API) + MCP Server |
+| MDX | next-mdx-remote + remark-gfm |
+| Testing | Vitest (50 tests, 6 files) |
 
 ## Quick Start
 
 ```bash
 npm install
 
-# Fetch a single tweet
-npm run fetch -- https://x.com/user/status/123456
+# Run migrations and seed data
+npx tsx scripts/migrate-mdx.ts
 
-# Batch fetch from ID list
-npm run batch -- --username=gch_enbsbxbs --ids-file=tweet-ids.txt
+# Start dev server
+npx next dev -p 3999
 
-# Check interpretation status
-npm run interpret
-
-# Full pipeline (fetch + report)
-npm run pipeline -- --url=https://x.com/user/status/123456
+# Run tests
+npx vitest run
 ```
+
+## Routes
+
+| Route | Description |
+|-------|-------------|
+| `/` | Feed — article list with filters and infinite scroll |
+| `/follows` | Follow management with category sidebar |
+| `/follows/[username]` | Person view — articles by author |
+| `/articles/[slug]` | Article detail — side-by-side original + interpretation |
+| `/topics` | Tag list with article counts |
+| `/topics/[tag]` | Articles filtered by tag |
+| `/search` | Full-text search (FTS5) |
+| `/settings` | API key, model selector, mode detection |
 
 ## Project Structure
 
 ```
 tweet-analyzer/
 ├── src/
-│   ├── types.ts          # Type definitions
-│   ├── twitter-api.ts    # fxtwitter API client
-│   ├── mdx-builder.ts    # MDX article generation
-│   ├── articles.ts       # Article reading/parsing
-│   ├── fetch-tweet.ts    # Single tweet CLI
-│   ├── batch-fetch.ts    # Batch fetch CLI
-│   ├── interpret.ts      # Interpretation status checker
-│   └── pipeline.ts       # Full pipeline orchestrator
-├── output/
-│   └── articles/         # Generated MDX articles
-├── package.json
-└── tsconfig.json
+│   ├── app/                  # Next.js pages and API routes
+│   ├── components/           # React components (sidebar, cards, MDX renderer)
+│   ├── lib/
+│   │   ├── db/               # Drizzle schema, connection, seed
+│   │   ├── services/         # Business logic (articles, follows, search, interpretation)
+│   │   ├── mdx/              # MDX builder utilities
+│   │   └── trpc/             # tRPC client
+│   └── server/trpc/          # tRPC routers (articles, follows, categories, search, settings, interpretation)
+├── mcp-server/               # MCP Server (stdio transport, 4 tools)
+├── cli/                      # CLI tools (fetch, interpret)
+├── legacy/                   # Original CLI source preserved
+├── scripts/                  # Migration scripts
+├── drizzle/                  # SQL migrations
+└── data/                     # SQLite database (gitignored)
 ```
 
-## Article Format
+## AI Interpretation
 
-Each article is an MDX file with:
+### MCP Server (default, free)
 
-```mdx
----
-title: "..."
-author: "Name (@handle)"
-date: "2025-01-01"
-source: "https://x.com/..."
-slug: "2025-01-01-title-slug"
-tags: ["tag1", "tag2"]
----
+Uses your local Claude Code. Configure via `.mcp.json`:
 
-## Original
-
-> Original tweet content...
-
----
-
-## 解读
-
-Chinese interpretation with English technical terms preserved.
+```json
+{
+  "mcpServers": {
+    "tweet-analyzer": {
+      "command": "npx",
+      "args": ["tsx", "mcp-server/index.ts"]
+    }
+  }
+}
 ```
+
+### Claude API (optional)
+
+Set your API key in Settings page. Supports Haiku 4.5 (fast) and Sonnet 4.6 (quality).
 
 ## Interpretation Rules
 
-- Write in Chinese (简体中文)
+- Write in Chinese (simplified)
 - Keep professional/technical terms in English (e.g., Martingale, Grid Trading, LP, DeFi)
 - Use `<Callout type="warning">` for risk disclaimers
 - Use `<Callout type="info">` for key insights
