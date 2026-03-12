@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { FollowCard } from "@/components/follow-card";
 import { FollowDialog } from "@/components/follow-dialog";
 import { CategoryManager } from "@/components/category-manager";
+import { WeChatFetchPanel } from "@/components/wechat-fetch-panel";
 
 export default function FollowsPage() {
   const utils = trpc.useUtils();
@@ -106,8 +107,9 @@ export default function FollowsPage() {
           ))}
         </div>
 
-        {/* Category sidebar */}
-        <div>
+        {/* Sidebar: categories + WeChat fetch */}
+        <div className="space-y-6">
+          <WeChatFetchPanel />
           <CategoryManager />
         </div>
       </div>

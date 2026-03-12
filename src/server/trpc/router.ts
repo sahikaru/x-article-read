@@ -5,6 +5,7 @@ import { articlesRouter } from "./articles";
 import { interpretationRouter } from "./interpretation";
 import { searchRouter } from "./search";
 import { settingsRouter } from "./settings";
+import { wechatRouter } from "./wechat";
 
 export const appRouter = router({
   follows: followsRouter,
@@ -13,6 +14,7 @@ export const appRouter = router({
   interpretation: interpretationRouter,
   search: searchRouter,
   settings: settingsRouter,
+  wechat: wechatRouter,
 });
 
 export type AppRouter = typeof appRouter;
