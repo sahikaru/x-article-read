@@ -12,6 +12,7 @@ export default function FeedPage() {
   >("all");
   const [sortBy, setSortBy] = useState<"date" | "likes" | "views">("date");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [selectedAuthor, setSelectedAuthor] = useState<string | null>(null);
 
   const hasInterpretation =
     interpretationFilter === "all"
@@ -20,7 +21,7 @@ export default function FeedPage() {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     trpc.articles.list.useInfiniteQuery(
-      { limit: 20, hasInterpretation, tag: selectedTag ?? undefined },
+      { limit: 20, hasInterpretation, tag: selectedTag ?? undefined, authorUsername: selectedAuthor ?? undefined },
       { getNextPageParam: (lastPage) => lastPage.nextCursor }
     );
 
@@ -28,6 +29,13 @@ export default function FeedPage() {
 
   const tagsQuery = trpc.articles.listTags.useQuery();
   const availableTags = tagsQuery.data ?? [];
+
+  const followsQuery = trpc.follows.list.useQuery();
+  const authors = (followsQuery.data ?? []).map((f) => ({
+    username: f.username,
+    displayName: f.displayName,
+    platform: f.platform,
+  }));
 
   // Client-side sort by engagement
   const sorted = [...articles].sort((a, b) => {
@@ -58,6 +66,9 @@ export default function FeedPage() {
           selectedTag={selectedTag}
           onTagChange={setSelectedTag}
           availableTags={availableTags}
+          selectedAuthor={selectedAuthor}
+          onAuthorChange={setSelectedAuthor}
+          authors={authors}
         />
       </div>
 

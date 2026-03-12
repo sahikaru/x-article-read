@@ -25,8 +25,8 @@ export function Sidebar() {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden w-56 shrink-0 border-r border-gh-border md:block">
-        <div className="sticky top-0 px-3 py-6">
+      <aside className="hidden h-screen w-56 shrink-0 overflow-y-auto border-r border-gh-border md:block">
+        <div className="px-3 py-6">
           <Link href="/" className="mb-6 block px-3 text-lg font-bold text-gh-text">
             Tweet Analyzer
           </Link>

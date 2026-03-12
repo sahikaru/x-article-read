@@ -17,9 +17,9 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className="bg-gh-bg text-gh-text min-h-screen antialiased">
         <Providers>
-          <div className="flex min-h-screen">
+          <div className="flex h-screen overflow-hidden">
             <Sidebar />
-            <main className="flex-1 px-4 py-8 pb-20 md:px-8 md:pb-8">
+            <main className="flex-1 overflow-y-auto px-4 py-8 pb-20 md:px-8 md:pb-8">
               <div className="mx-auto max-w-7xl">{children}</div>
             </main>
           </div>

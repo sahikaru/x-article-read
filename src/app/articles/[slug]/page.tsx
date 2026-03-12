@@ -119,13 +119,9 @@ export default async function ArticlePage({
           <h2 className="mb-3 text-lg font-semibold text-gh-text">
             Original Content
           </h2>
-          {article.mdxContent ? (
-            <MdxRenderer source={article.mdxContent} />
-          ) : (
-            <p className="whitespace-pre-wrap leading-relaxed text-gh-text-secondary">
-              {article.originalContent}
-            </p>
-          )}
+          <p className="whitespace-pre-wrap leading-relaxed text-gh-text-secondary">
+            {article.originalContent}
+          </p>
         </section>
 
         {/* Interpretation */}
