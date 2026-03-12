@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { Heart, Repeat2, Eye } from "lucide-react";
+import { PlatformAvatar } from "./platform-avatar";
+import { PlatformIcon } from "./platform-icon";
 
 interface Engagement {
   likes: number;
@@ -50,8 +52,11 @@ export function ArticleCardServer({ article }: ArticleCardServerProps) {
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 text-sm">
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gh-border text-xs font-medium">
-              {article.authorDisplayName.charAt(0).toUpperCase()}
+            <div className="relative">
+              <PlatformAvatar platform={article.platform} username={article.authorUsername} displayName={article.authorDisplayName} size={24} />
+              <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-gh-bg-secondary">
+                <PlatformIcon platform={article.platform} className="h-2.5 w-2.5 text-[#1d9bf0]" />
+              </span>
             </div>
             <span className="font-medium text-gh-text">
               {article.authorDisplayName}

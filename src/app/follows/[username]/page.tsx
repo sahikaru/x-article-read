@@ -4,6 +4,8 @@ import { ArrowLeft } from "lucide-react";
 import { appRouter } from "@/server/trpc/router";
 import { createCallerFactory, createTRPCContext } from "@/server/trpc/init";
 import { ArticleCardServer } from "@/components/article-card-server";
+import { PlatformAvatar } from "@/components/platform-avatar";
+import { PlatformIcon } from "@/components/platform-icon";
 
 const createCaller = createCallerFactory(appRouter);
 
@@ -42,8 +44,11 @@ export default async function UserArticlesPage({
       {/* Profile header */}
       <header className="rounded-md border border-gh-border bg-gh-bg-secondary p-6">
         <div className="flex items-center gap-4">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gh-border text-lg font-semibold">
-            {displayName.charAt(0).toUpperCase()}
+          <div className="relative">
+            <PlatformAvatar platform={follow?.platform ?? "twitter"} username={username} displayName={displayName} size={56} />
+            <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gh-bg-secondary">
+              <PlatformIcon platform={follow?.platform ?? "twitter"} className="h-3.5 w-3.5 text-[#1d9bf0]" />
+            </span>
           </div>
           <div>
             <h1 className="text-xl font-bold text-gh-text">{displayName}</h1>

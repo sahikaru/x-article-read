@@ -3,6 +3,8 @@
 import { Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CategoryBadge } from "@/components/category-badge";
+import { PlatformAvatar } from "./platform-avatar";
+import { PlatformIcon } from "./platform-icon";
 
 interface Category {
   id: number;
@@ -35,8 +37,11 @@ export function FollowCard({
     <div className="rounded-md border border-gh-border bg-gh-bg-secondary p-4">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gh-border text-sm font-medium">
-            {displayName.charAt(0).toUpperCase()}
+          <div className="relative">
+            <PlatformAvatar platform={platform} username={username} displayName={displayName} size={40} />
+            <span className="absolute -bottom-0.5 -right-0.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-gh-bg-secondary">
+              <PlatformIcon platform={platform} className="h-3 w-3 text-[#1d9bf0]" />
+            </span>
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2">
