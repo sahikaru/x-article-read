@@ -98,6 +98,31 @@ Uses your local Claude Code. Configure via `.mcp.json`:
 
 Set your API key in Settings page. Supports Haiku 4.5 (fast) and Sonnet 4.6 (quality).
 
+## Content Library
+
+28 curated articles with full Chinese interpretations from two authors:
+
+### @gch_enbsbxbs (CJ) — 18 articles
+Trading strategies, open-source tools, and DeFi yield farming:
+- PAXG/XAUUSD arbitrage, USDT/USD macro analysis
+- Backpack Martin / Grid+Scalping+Martin hybrid strategies
+- Meteora DLMM LP bot (10万+ lines, microservices architecture)
+- FF airdrop post-mortem, 800M points farming with leverage loops
+- On-chain address analysis for TGE timing
+- Cross-border payment tools, AI monitoring scripts
+- Full trading system open source (grid + volume + monitor)
+
+### @MrRyanChi — 10 articles
+Prediction markets, Web3 ecosystem, and cross-cultural insights:
+- Polymarket arbitrage bible (Integer Programming + Bregman Projection + Frank-Wolfe)
+- Polymarket 101 beginner guide
+- Polymarket vs Meme coin adoption curve analysis
+- Polymarket on NYSE + signal bot development
+- Polyinsiders launch week retrospective
+- Web3 US-China info gap series (Aug/Sep/Oct 2025)
+- Solana copy-trading bot (slot-level latency)
+- Web3 Gen-Z entrepreneurship culture
+
 ## Interpretation Rules
 
 - Write in Chinese (simplified)

@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.1.0] - 2026-03-17
+
+### Added
+- WeChat public account article source with batch fetching via admin API
+- Real Twitter avatars and platform badge icons (X, WeChat)
+- 28 curated articles with full Chinese interpretations:
+  - 18 articles from @gch_enbsbxbs (CJ): arbitrage, grid trading, Martin strategies, LP, DeFi yield farming, on-chain analysis, cross-border payments, open-source trading systems
+  - 10 articles from @MrRyanChi: Polymarket arbitrage math, prediction market 101, Web3 US-China info gap series, copy-trading bot, Polyinsiders launch retrospective
+
+### Fixed
+- Sidebar scroll and article detail layout UX
+- Author filter in feed view
+
 ## [1.0.0] - 2026-03-12
 
 ### Added

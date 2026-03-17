@@ -16,3 +16,10 @@ screenshots/
 data/
 *.png
 !src/**/*.png
+
+# Planning files
+task_plan.md
+findings.md
+progress.md
+*-proposal.md
+*-report.md
